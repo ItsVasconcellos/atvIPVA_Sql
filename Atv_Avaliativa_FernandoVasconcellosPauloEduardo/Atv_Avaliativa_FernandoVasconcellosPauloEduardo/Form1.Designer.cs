@@ -51,24 +51,34 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.button4 = new System.Windows.Forms.Button();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -280,7 +290,7 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Controls.Add(this.maskedTextBox1);
             this.tabPage2.Controls.Add(this.label4);
             this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Controls.Add(this.label2);
@@ -293,17 +303,10 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
             this.tabPage2.Text = "Dados";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(70, 115);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(172, 20);
-            this.textBox1.TabIndex = 4;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(31, 115);
+            this.label4.Location = new System.Drawing.Point(36, 93);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(33, 13);
             this.label4.TabIndex = 3;
@@ -338,6 +341,8 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label13);
+            this.tabPage3.Controls.Add(this.label12);
             this.tabPage3.Controls.Add(this.button5);
             this.tabPage3.Controls.Add(this.textBox9);
             this.tabPage3.Controls.Add(this.textBox8);
@@ -350,8 +355,68 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
             this.tabPage3.Text = "Efetuar Pagamento";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(19, 69);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(90, 13);
+            this.label13.TabIndex = 5;
+            this.label13.Text = "Parcelas a pagar:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(72, 23);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(37, 13);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "Placa:";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(22, 109);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(393, 31);
+            this.button5.TabIndex = 3;
+            this.button5.Text = "Pagar";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // textBox9
+            // 
+            this.textBox9.Location = new System.Drawing.Point(115, 66);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.ReadOnly = true;
+            this.textBox9.Size = new System.Drawing.Size(177, 20);
+            this.textBox9.TabIndex = 2;
+            // 
+            // textBox8
+            // 
+            this.textBox8.Location = new System.Drawing.Point(115, 20);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(177, 20);
+            this.textBox8.TabIndex = 1;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(298, 6);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(119, 97);
+            this.button4.TabIndex = 0;
+            this.button4.Text = "Consultar";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.textBox12);
+            this.tabPage4.Controls.Add(this.textBox11);
+            this.tabPage4.Controls.Add(this.textBox10);
+            this.tabPage4.Controls.Add(this.label16);
+            this.tabPage4.Controls.Add(this.label15);
+            this.tabPage4.Controls.Add(this.label14);
+            this.tabPage4.Controls.Add(this.button6);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -375,37 +440,73 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // button4
+            // button6
             // 
-            this.button4.Location = new System.Drawing.Point(298, 6);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(119, 99);
-            this.button4.TabIndex = 0;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
+            this.button6.Location = new System.Drawing.Point(320, 6);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(157, 131);
+            this.button6.TabIndex = 0;
+            this.button6.Text = "Consultar";
+            this.button6.UseVisualStyleBackColor = true;
             // 
-            // textBox8
+            // label14
             // 
-            this.textBox8.Location = new System.Drawing.Point(115, 20);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(177, 20);
-            this.textBox8.TabIndex = 1;
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(100, 26);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(37, 13);
+            this.label14.TabIndex = 1;
+            this.label14.Text = "Placa:";
             // 
-            // textBox9
+            // label15
             // 
-            this.textBox9.Location = new System.Drawing.Point(115, 63);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(177, 20);
-            this.textBox9.TabIndex = 2;
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(27, 65);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(110, 13);
+            this.label15.TabIndex = 2;
+            this.label15.Text = "Forma de pagamento:";
             // 
-            // button5
+            // label16
             // 
-            this.button5.Location = new System.Drawing.Point(24, 124);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(393, 31);
-            this.button5.TabIndex = 3;
-            this.button5.Text = "button5";
-            this.button5.UseVisualStyleBackColor = true;
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(76, 105);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(61, 13);
+            this.label16.TabIndex = 3;
+            this.label16.Text = "Valor pago:";
+            // 
+            // textBox10
+            // 
+            this.textBox10.Location = new System.Drawing.Point(158, 23);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(140, 20);
+            this.textBox10.TabIndex = 4;
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(158, 62);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.ReadOnly = true;
+            this.textBox11.Size = new System.Drawing.Size(140, 20);
+            this.textBox11.TabIndex = 5;
+            // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(158, 102);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.ReadOnly = true;
+            this.textBox12.Size = new System.Drawing.Size(140, 20);
+            this.textBox12.TabIndex = 6;
+            // 
+            // maskedTextBox1
+            // 
+            this.maskedTextBox1.Location = new System.Drawing.Point(75, 93);
+            this.maskedTextBox1.Mask = "00/00/0000";
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.Size = new System.Drawing.Size(165, 20);
+            this.maskedTextBox1.TabIndex = 4;
+            this.maskedTextBox1.ValidatingType = typeof(System.DateTime);
             // 
             // Form1
             // 
@@ -425,6 +526,8 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -435,7 +538,6 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -466,6 +568,16 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
     }
 }
 

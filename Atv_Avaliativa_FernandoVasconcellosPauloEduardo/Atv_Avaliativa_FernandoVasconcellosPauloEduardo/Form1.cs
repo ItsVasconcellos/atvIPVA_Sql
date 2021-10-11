@@ -31,7 +31,7 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
                 MessageBox.Show("Falha na Conexão");
             }
             label5.Text = DateTime.Now.ToString("T");
-            textBox1.Text = DateTime.Today.ToString("dd/MM/yyy");
+            maskedTextBox1.Text = DateTime.Today.ToString();
 
             this.WindowState = FormWindowState.Maximized;
         }
@@ -125,6 +125,111 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
             else
             {
                 MessageBox.Show("Calcule primeiro o valor de imposto e escolha sua forma de pagamento!");
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+
+                con.Open();
+                MySqlCommand busca = new MySqlCommand("Select qntd_parcela_paga from Pagamento where placa=" + textBox8.Text, con);
+                MySqlDataReader result = busca.ExecuteReader();
+
+                if (result.Read())
+                {
+                    int teste = ((int)result["qtde_parcela_paga"]);
+                    if (teste != 0)
+                    {
+                        textBox9.Text = "Sua dívida já está quitada!";
+                    }
+                    textBox9.Text = result["qtde_parcela_paga"].ToString();
+                    
+                }
+                if(textBox9.Text == "")
+                {
+                    try
+                    {
+                        MySqlCommand buscaFormapag = new MySqlCommand("Select forma_pagto from Veiculo where placaVeiculo=" + textBox8.Text, con);
+                        MySqlDataReader resultForma = buscaFormapag.ExecuteReader();
+                        if (resultForma.Read())
+                        {
+                            
+                            int qntdParcelas = 0;
+                            qntdParcelas = (int)resultForma["forma_pagto"];
+                            resultForma.Close();
+                                if (qntdParcelas == 1)
+                                {
+                                    MySqlCommand addingPag = new MySqlCommand("Insert into Pagamento(placa,qntd_parcela_paga) values ('" + textBox8.Text + "','" + 1 +"')", con);
+                                    addingPag.ExecuteNonQuery();
+                                    textBox9.Text = qntdParcelas.ToString();
+                                }
+                                if (qntdParcelas == 2)
+                                {
+                                    MySqlCommand addingPag2 = new MySqlCommand("Insert into Pagamento(placa,qntd_parcela_paga) values ('" + textBox8.Text + "','" + 3 + "')", con);
+                                    result.Close();
+                                    addingPag2.ExecuteNonQuery();
+                                    textBox9.Text = 3.ToString();
+                                }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if(textBox9.Text != null && textBox8.Text != null)
+            {
+                try
+                {
+                    con.Open();
+                    int Parcelas = int.Parse(textBox9.Text);
+                    if (Parcelas > 0)
+                    {
+                        Parcelas--;
+                        MySqlCommand alter = new MySqlCommand("Update Pagamento set qntd_parcela_paga='" + Parcelas + "' where placa=" + textBox8.Text, con);
+                        if (Parcelas == 0)
+                        {
+                            textBox9.Text = "Dívida quitada";
+                        }
+                        else
+                        { 
+                            textBox9.Text = Parcelas.ToString();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Dívida já quitada");
+                    }
+                }
+                catch 
+                {
+                    MessageBox.Show("Você ainda não consultou o veículo!")
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Consulte a quantidade de parcelas a pagar primeiro!");
             }
         }
     }
