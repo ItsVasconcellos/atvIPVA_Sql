@@ -108,7 +108,7 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
                     }
                     try
                     {
-                        MySqlCommand insert = new MySqlCommand("insert into Veiculo(placaVeiculo,valor_veículo,valor_imposto,forma_pagto) values ('" + textBox2.Text + "','" + valorVeiculo + "','" + valorImposto + "','" + formaPag + "')", con);
+                        MySqlCommand insert = new MySqlCommand("insert into Veiculo(placaVeiculo,valor_veiculo,valor_imposto,forma_pagto) values ('" + textBox2.Text + "','" + valorVeiculo + "','" + valorImposto + "','" + formaPag + "')", con);
                         insert.ExecuteNonQuery();
                         MessageBox.Show("Dados gravados");
                     }
@@ -132,26 +132,27 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
         {
             try
             {
-
-
                 con.Open();
                 MySqlCommand busca = new MySqlCommand("Select qntd_parcela_paga from Pagamento where placa=" + textBox8.Text, con);
                 MySqlDataReader result = busca.ExecuteReader();
 
                 if (result.Read())
                 {
-                    int teste = ((int)result["qtde_parcela_paga"]);
-                    if (teste != 0)
+                    int teste = ((int)result["qntd_parcela_paga"]);
+                    if (teste == 0)
                     {
                         textBox9.Text = "Sua dívida já está quitada!";
                     }
-                    textBox9.Text = result["qtde_parcela_paga"].ToString();
-                    
+                    else
+                    {
+                        textBox9.Text = result["qntd_parcela_paga"].ToString();
+                    }
                 }
                 if(textBox9.Text == "")
                 {
                     try
                     {
+                        result.Close();
                         MySqlCommand buscaFormapag = new MySqlCommand("Select forma_pagto from Veiculo where placaVeiculo=" + textBox8.Text, con);
                         MySqlDataReader resultForma = buscaFormapag.ExecuteReader();
                         if (resultForma.Read())
@@ -169,7 +170,6 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
                                 if (qntdParcelas == 2)
                                 {
                                     MySqlCommand addingPag2 = new MySqlCommand("Insert into Pagamento(placa,qntd_parcela_paga) values ('" + textBox8.Text + "','" + 3 + "')", con);
-                                    result.Close();
                                     addingPag2.ExecuteNonQuery();
                                     textBox9.Text = 3.ToString();
                                 }
@@ -202,15 +202,23 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
                     int Parcelas = int.Parse(textBox9.Text);
                     if (Parcelas > 0)
                     {
-                        Parcelas--;
-                        MySqlCommand alter = new MySqlCommand("Update Pagamento set qntd_parcela_paga='" + Parcelas + "' where placa=" + textBox8.Text, con);
-                        if (Parcelas == 0)
+                        try
                         {
-                            textBox9.Text = "Dívida quitada";
+                            Parcelas--;
+                            MySqlCommand alter = new MySqlCommand("Update Pagamento set qntd_parcela_paga=" + Parcelas + " where placa=" + textBox8.Text, con);
+                            alter.ExecuteNonQuery();
+                            if (Parcelas == 0)
+                            {
+                                textBox9.Text = "Dívida quitada";
+                            }
+                            else
+                            {
+                                textBox9.Text = Parcelas.ToString();
+                            }
                         }
-                        else
-                        { 
-                            textBox9.Text = Parcelas.ToString();
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.ToString());
                         }
                     }
                     else
@@ -220,7 +228,7 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
                 }
                 catch 
                 {
-                    MessageBox.Show("Você ainda não consultou o veículo!")
+                    MessageBox.Show("Você ainda não consultou o veículo!");
                 }
                 finally
                 {
@@ -230,6 +238,87 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
             else
             {
                 MessageBox.Show("Consulte a quantidade de parcelas a pagar primeiro!");
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                con.Open();
+                MySqlCommand search = new MySqlCommand("Select forma_pagto from Veiculo where placaVeiculo=" + textBox10.Text, con);
+                MySqlDataReader formaPagto = search.ExecuteReader();
+                if(formaPagto.Read())
+                {
+                    int formaPagamento = (int)formaPagto["forma_pagto"];
+                    textBox11.Text = formaPagto["forma_pagto"].ToString();
+                    formaPagto.Close();
+                    MySqlCommand parcelasPagar = new MySqlCommand("Select qntd_parcela_paga from Pagamento where placa=" + textBox10.Text, con);
+                    MySqlDataReader totalParcelas = parcelasPagar.ExecuteReader();
+                    if (totalParcelas.Read())
+                    {
+                        int parc = (int)totalParcelas["qntd_parcela_paga"];
+                        totalParcelas.Close();
+                        MySqlCommand valor = new MySqlCommand("Select valor_imposto from Veiculo where placaVeiculo=" + textBox10.Text, con);
+                        MySqlDataReader valorV = valor.ExecuteReader();
+                        if (valorV.Read())
+                        {
+                            float valorVeiculo = (float)valorV["valor_imposto"];
+                            if (formaPagamento == 1)
+                            {
+                                if (parc == 0)
+                                    textBox12.Text = (valorVeiculo-10/100*valorVeiculo).ToString();
+                                if (parc == 1)
+                                    textBox12.Text = "0";
+                            }
+                            if (formaPagamento == 2)
+                            {
+                                if (parc == 0)
+                                    textBox12.Text = valorVeiculo.ToString();
+                                if (parc == 1)
+                                    textBox12.Text = (2*valorVeiculo/3).ToString();
+                                if (parc == 2)
+                                    textBox12.Text = (valorVeiculo/3).ToString();
+                                if (parc == 3)
+                                    textBox12.Text = "0";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            if (formaPagamento == 1)
+                            {
+                                MySqlCommand addingPag = new MySqlCommand("Insert into Pagamento(placa,qntd_parcela_paga) values ('" + textBox10.Text + "','" + 1 + "')", con);
+                                addingPag.ExecuteNonQuery();
+                                textBox9.Text = formaPagamento.ToString();
+                            }
+                            if (formaPagamento == 2)
+                            {
+                                MySqlCommand addingPag2 = new MySqlCommand("Insert into Pagamento(placa,qntd_parcela_paga) values ('" + textBox10.Text + "','" + 3 + "')", con);
+                                addingPag2.ExecuteNonQuery();
+                                textBox9.Text = 3.ToString();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.ToString());
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Veículo não registrado!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                con.Close();
             }
         }
     }
