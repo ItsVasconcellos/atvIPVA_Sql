@@ -43,7 +43,7 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox3.Text != null)
+            if (textBox3.Text != "")
             {
                 valorVeiculo = float.Parse(textBox3.Text);
                 valorImposto = 0.04 * valorVeiculo;
@@ -59,8 +59,9 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
         {
             textBox2.Text = "";
             textBox3.Text = "";
-            textBox6.Text = "";
-            textBox7.Text = "";
+            textBox5.Text = "";
+            maskedTextBox2.Text = "";
+            maskedTextBox3.Text = "";
             aux = 0;
             valorImposto = 0;
             valorVeiculo = 0;
@@ -74,7 +75,8 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
             if (valorImposto != 0)
             {
                 aux = valorImposto - 0.10 * valorImposto;
-                textBox6.Text = aux.ToString();
+                maskedTextBox2.Text = aux.ToString();
+                maskedTextBox3.Text = "";
                 formaPag = 1;
             }
             else
@@ -86,7 +88,9 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
         {
             if (valorImposto != 0)
             {
-                textBox7.Text = (valorImposto / 3).ToString();
+                maskedTextBox3.Text = (valorImposto / 3).ToString();
+                maskedTextBox3.Text = String.Format("{0:N2}", double.Parse(maskedTextBox3.Text));
+                maskedTextBox2.Text = "";
                 formaPag = 2;
             }
             else
@@ -97,7 +101,7 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (textBox2.Text != null && textBox3 != null)
+            if (textBox2.Text != "" && textBox3.Text != "")
             {
                 if (radioButton1.Checked || radioButton2.Checked)
                 {
@@ -194,41 +198,50 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if(textBox9.Text != null && textBox8.Text != null)
+            if(textBox9.Text != "" && textBox8.Text != "")
             {
                 try
                 {
                     con.Open();
-                    int Parcelas = int.Parse(textBox9.Text);
-                    if (Parcelas > 0)
+                    MySqlCommand consulta = new MySqlCommand("Select placaVeiculo from Veiculo where placaVeiculo=" + textBox8.Text, con);
+                    MySqlDataReader checagem = consulta.ExecuteReader();
+                    if (checagem.Read())
                     {
-                        try
+                        int Parcelas = int.Parse(textBox9.Text);
+                        if (Parcelas > 0)
                         {
-                            Parcelas--;
-                            MySqlCommand alter = new MySqlCommand("Update Pagamento set qntd_parcela_paga=" + Parcelas + " where placa=" + textBox8.Text, con);
-                            alter.ExecuteNonQuery();
-                            if (Parcelas == 0)
+                            try
                             {
-                                textBox9.Text = "Dívida quitada";
+                                Parcelas--;
+                                MySqlCommand alter = new MySqlCommand("Update Pagamento set qntd_parcela_paga=" + Parcelas + " where placa=" + textBox8.Text, con);
+                                alter.ExecuteNonQuery();
+                                if (Parcelas == 0)
+                                {
+                                    textBox9.Text = "Dívida quitada";
+                                }
+                                else
+                                {
+                                    textBox9.Text = Parcelas.ToString();
+                                }
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                textBox9.Text = Parcelas.ToString();
+                                MessageBox.Show(ex.ToString());
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            MessageBox.Show(ex.ToString());
+                            MessageBox.Show("Dívida já quitada");
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Dívida já quitada");
+                        MessageBox.Show("Seu veículo ainda não foi registrado!");
                     }
                 }
-                catch 
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Você ainda não consultou o veículo!");
+                    MessageBox.Show(ex.ToString());
                 }
                 finally
                 {
