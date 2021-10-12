@@ -60,8 +60,8 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
             textBox2.Text = "";
             textBox3.Text = "";
             textBox5.Text = "";
-            maskedTextBox2.Text = "";
-            maskedTextBox3.Text = "";
+            textBox6.Text = "";
+            textBox7.Text = "";
             aux = 0;
             valorImposto = 0;
             valorVeiculo = 0;
@@ -75,8 +75,8 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
             if (valorImposto != 0)
             {
                 aux = valorImposto - 0.10 * valorImposto;
-                maskedTextBox2.Text = aux.ToString();
-                maskedTextBox3.Text = "";
+                textBox6.Text = "R$ " + aux.ToString();
+                textBox7.Text = "";
                 formaPag = 1;
             }
             else
@@ -88,9 +88,9 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
         {
             if (valorImposto != 0)
             {
-                maskedTextBox3.Text = (valorImposto / 3).ToString();
-                maskedTextBox3.Text = String.Format("{0:N2}", double.Parse(maskedTextBox3.Text));
-                maskedTextBox2.Text = "";
+                textBox7.Text = (valorImposto / 3).ToString();
+                textBox7.Text = "R$ " + String.Format("{0:N2}", double.Parse(textBox7.Text));
+                textBox6.Text = "";
                 formaPag = 2;
             }
             else
@@ -207,31 +207,39 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
                     MySqlDataReader checagem = consulta.ExecuteReader();
                     if (checagem.Read())
                     {
-                        int Parcelas = int.Parse(textBox9.Text);
-                        if (Parcelas > 0)
+                        if (textBox9.Text != "Sua dívida já está quitada!" && textBox9.Text != "Dívida quitada")
                         {
-                            try
+                            int Parcelas = int.Parse(textBox9.Text);
+                            if (Parcelas > 0)
                             {
-                                Parcelas--;
-                                MySqlCommand alter = new MySqlCommand("Update Pagamento set qntd_parcela_paga=" + Parcelas + " where placa=" + textBox8.Text, con);
-                                alter.ExecuteNonQuery();
-                                if (Parcelas == 0)
+                                try
                                 {
-                                    textBox9.Text = "Dívida quitada";
+                                    Parcelas--;
+                                    checagem.Close();
+                                    MySqlCommand alter = new MySqlCommand("Update Pagamento set qntd_parcela_paga=" + Parcelas + " where placa=" + textBox8.Text, con);
+                                    alter.ExecuteNonQuery();
+                                    if (Parcelas == 0)
+                                    {
+                                        textBox9.Text = "Dívida quitada";
+                                    }
+                                    else
+                                    {
+                                        textBox9.Text = Parcelas.ToString();
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    textBox9.Text = Parcelas.ToString();
+                                    MessageBox.Show(ex.ToString());
                                 }
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                MessageBox.Show(ex.ToString());
+                                MessageBox.Show("Dívida já quitada");
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Dívida já quitada");
+                            MessageBox.Show("Sua dívida já foi quitada!");
                         }
                     }
                     else
@@ -264,7 +272,10 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
                 if(formaPagto.Read())
                 {
                     int formaPagamento = (int)formaPagto["forma_pagto"];
-                    textBox11.Text = formaPagto["forma_pagto"].ToString();
+                    if (formaPagamento == 1)
+                        textBox11.Text = "A vista";
+                    if (formaPagamento == 2)
+                        textBox11.Text = "Parcelado";
                     formaPagto.Close();
                     MySqlCommand parcelasPagar = new MySqlCommand("Select qntd_parcela_paga from Pagamento where placa=" + textBox10.Text, con);
                     MySqlDataReader totalParcelas = parcelasPagar.ExecuteReader();
@@ -301,17 +312,18 @@ namespace Atv_Avaliativa_FernandoVasconcellosPauloEduardo
                     {
                         try
                         {
+                            totalParcelas.Close();
                             if (formaPagamento == 1)
                             {
                                 MySqlCommand addingPag = new MySqlCommand("Insert into Pagamento(placa,qntd_parcela_paga) values ('" + textBox10.Text + "','" + 1 + "')", con);
                                 addingPag.ExecuteNonQuery();
-                                textBox9.Text = formaPagamento.ToString();
+                                textBox12.Text = "0";
                             }
                             if (formaPagamento == 2)
                             {
                                 MySqlCommand addingPag2 = new MySqlCommand("Insert into Pagamento(placa,qntd_parcela_paga) values ('" + textBox10.Text + "','" + 3 + "')", con);
                                 addingPag2.ExecuteNonQuery();
-                                textBox9.Text = 3.ToString();
+                                textBox12.Text = "0";
                             }
                         }
                         catch (Exception ex)
